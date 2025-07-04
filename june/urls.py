@@ -17,8 +17,13 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
+from django.views.generic import TemplateView
+from managementApp.views import dashboard, allProducts, viewProduct
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # path('signup/', view(), name='signup'),
+    path("", TemplateView.as_view(template_name="index.html"), name='home'),
+    path('dashboard/', dashboard, name='dashboard'),
+    path('products/', allProducts, name='products'),
+    path('view-product/<int:id>/', viewProduct, name='view-product')
 ]

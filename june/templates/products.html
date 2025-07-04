@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    All products
+    
+    {% if products %}
+        {% for product in products %}
+            <p><b>{{ product.name }}</b> #{{product.price}}  <a href="{% url "view-product" product.id %}">view</a></p>
+            
+        {% endfor %}
+    {% else %}
+        <p> No product avaliable </p>
+    {% endif %}
+</body>
+</html>
