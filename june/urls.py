@@ -18,12 +18,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.views.generic import TemplateView
-from managementApp.views import dashboard, allProducts, viewProduct
+from managementApp.views import dashboard, allProducts, viewProduct, addProduct, stockLogView
+from django.conf.urls.static import static  
+from django.conf import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", TemplateView.as_view(template_name="index.html"), name='home'),
     path('dashboard/', dashboard, name='dashboard'),
     path('products/', allProducts, name='products'),
-    path('view-product/<int:id>/', viewProduct, name='view-product')
+    path('view-product/<int:id>/', viewProduct, name='view-product'),
+    path('add-product/', addProduct, name='add-product'),
+    path('log-stock/<int:product_id>/', stockLogView, name='log-stock'),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

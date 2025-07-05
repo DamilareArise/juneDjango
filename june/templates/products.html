@@ -10,7 +10,16 @@
     
     {% if products %}
         {% for product in products %}
-            <p><b>{{ product.name }}</b> #{{product.price}}  <a href="{% url "view-product" product.id %}">view</a></p>
+            
+            <p>
+                <b>{{ product.name }}</b>
+
+                #{{product.price}}  
+
+                <a href="{% url "view-product" product.id %}">view</a>
+                <a href="{% url "log-stock" product.id %}">log</a>
+            
+            </p>
             
         {% endfor %}
     {% else %}

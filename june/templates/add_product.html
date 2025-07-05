@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <form action="{% url "add-product" %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h4>Add product</h4>
+            <input type="text" placeholder="Product name" name="product_name">
+            <input type="number" placeholder="Quantity" name="quantity">
+            <input type="number" placeholder="Price" name="price"> 
+            <label for="">Upload Product image</label>
+            <input type="file" name="product_image" accept="image/*">
+            <button type="submit">submit</button>
+        </form>
+    </div>
+</body>
+</html>
