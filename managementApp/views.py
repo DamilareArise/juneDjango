@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Product, StockLog
 from .forms import StockLogForm
+from django.contrib.auth.models import User
+from django.contrib import messages
 
 
 # Create your views here.
@@ -21,9 +23,10 @@ db = [
     }
 ]
 
-
+@login_required
 def dashboard(request):
-    name ="Arise Damilare"
+    user = get_object_or_404(User, id = request.user.id)
+    name = user.first_name +" "+ user.last_name
     return render(request, template_name='dashboard.html', context={"name": name})
 
 
@@ -77,12 +80,25 @@ def stockLogView(request, product_id):
             log.product = product
             log.created_by = request.user
             
+            # Increase the product quantity for stock type IN or vice versa
+            if log.type == "in":
+                product.quantity += int(log.quantity)  
+            else:
+                if product.quantity < log.quantity:
+                    messages.error(request, "Insufficient product quantity")
+                    return render(request, template_name="stock_log.html", context={"form": form, "product": product})
+                else:
+                    product.quantity -= int(log.quantity)
+            
+            product.save()
             log.save()
+            
+            messages.success(request, 'Stock updated successfully')
             return redirect('products')
-        
+            
         else:
             return render(request, template_name="stock_log.html", context={"form": form, "product": product})
-            # if product.quantity
+         
     
     else:
         form = StockLogForm()

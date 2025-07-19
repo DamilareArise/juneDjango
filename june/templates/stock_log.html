@@ -1,18 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends "common.html" %}
+
+    {% block content %}
+
+
+
     <div>
-        <form action="" method="post">
+        <form action="" method="post" class="col-md-4 container border my-3 p-3">
+
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                        <div class="alert alert-danger ">{{ message }}</div>
+                    {% else %}
+                         <div class="alert alert-info ">{{ message }}</div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
             {% csrf_token %}
             <h4>Log stock {{ product.name }}</h4>
             {{ form }}
-            <button>submit</button>
+            <button class="btn btn-primary">submit</button>
         </form>
     </div>
-</body>
-</html>
+    
+    {% endblock content %}

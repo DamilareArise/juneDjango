@@ -1,22 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div>
+{% extends "common.html" %}
+
+    {% block content %}
+    
+    <div class="col-md-4 container border my-3 p-3">
         <form action="{% url "add-product" %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <h4>Add product</h4>
-            <input type="text" placeholder="Product name" name="product_name">
-            <input type="number" placeholder="Quantity" name="quantity">
-            <input type="number" placeholder="Price" name="price"> 
+            <input type="text" placeholder="Product name" name="product_name" class='form-control mb-2'>
+            <input type="number" placeholder="Quantity" name="quantity" class='form-control mb-2'>
+            <input type="number" placeholder="Price" name="price" class='form-control mb-2'> 
             <label for="">Upload Product image</label>
-            <input type="file" name="product_image" accept="image/*">
-            <button type="submit">submit</button>
+            <input type="file" name="product_image" accept="image/*" class='form-control mb-2'>
+            <button type="submit" class='btn btn-primary'>submit</button>
         </form>
     </div>
-</body>
-</html>
+    {% endblock content %}
+

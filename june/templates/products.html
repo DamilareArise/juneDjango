@@ -1,29 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    All products
+{% extends "common.html" %}
+{% block content %}
+    <div class="container my-3">
+
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <div class="alert alert-danger ">{{ message }}</div>
+                {% else %}
+                        <div class="alert alert-info ">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        <h3 class="text-center">All products</h3>
     
-    {% if products %}
-        {% for product in products %}
-            
-            <p>
-                <b>{{ product.name }}</b>
+        {% if products %}
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Image</th>
+                <th scope="col">Product name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">View</th>
+                <th scope="col">Log</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>
+                        {% if product.image %}
+                          <img src="{{ product.image.url }}" alt="" height=30>
+                        {% else %}
+                           <img src="" alt="Coming soon" height=30> 
+                        {% endif %}
 
-                #{{product.price}}  
+                    </td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td><a href="{% url "view-product" product.id %}">view</a> </td>
+                    <td><a href="{% url "log-stock" product.id %}">log</a> </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p> No product avaliable </p>
+        {% endif %}
 
-                <a href="{% url "view-product" product.id %}">view</a>
-                <a href="{% url "log-stock" product.id %}">log</a>
-            
-            </p>
-            
-        {% endfor %}
-    {% else %}
-        <p> No product avaliable </p>
-    {% endif %}
-</body>
-</html>
+    </div>
+{% endblock content %}

@@ -10,3 +10,8 @@ class StockLogForm(forms.ModelForm):
             'quantity',
             'type'
         ]
+        
+        widgets  = {
+            "quantity": forms.NumberInput(attrs={"class": "form-control mb-2", "placeholder":"Quantity"}),
+            "type": forms.Select(attrs={"class": "form-control mb-2"})
+        }

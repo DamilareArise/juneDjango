@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h3>Landing page</h3>
-</body>
-</html>
+{% extends "common.html" %}
+{% load static %}
+
+    {% block content %}
+        <h3 class="text-color-font">Landing page</h3>
+        <img src="{% static "images/scott.jpg" %}" alt="" height= 200>
+      
+    {% endblock content %}
+
+
+
+   
