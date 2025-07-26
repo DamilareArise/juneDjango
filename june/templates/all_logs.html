@@ -1,0 +1,55 @@
+{% extends "common.html" %}
+{% block content %}
+    <div class="container my-3">
+
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <div class="alert alert-danger ">{{ message }}</div>
+                {% else %}
+                        <div class="alert alert-info ">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        <h3 class="text-center">All Logs</h3>
+    
+        {% if logs %}
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Product name</th>
+                <th scope="col">Product Quantity</th>
+                <th scope="col">Log Quantity</th>
+                <th scope="col">Log Type</th>
+                <th scope="col">Created by</th>
+                <th scope="col">Created at</th>
+                <th scope="col">View Product</th>
+                <th scope="col">Delete Log</th>
+                <th scope="col">Edit Log</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for log in logs %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ log.product.name }}</td>
+                    <td>{{ log.product.quantity }}</td>
+                    <td>{{ log.quantity }}</td>
+                    <td>{{ log.type }}</td>
+                    <td>{{ log.created_by.first_name }} {{ log.created_by.last_name }}</td>
+                    <td>{{ log.created_at }}</td>
+                    <td><a href="{% url "view-product" log.product.id %}">view</a> </td>
+                    <td><a href="">Delete log</a></td>
+                    <td><a href="">Edit log</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p> No log avaliable </p>
+        {% endif %}
+
+    </div>
+{% endblock content %}

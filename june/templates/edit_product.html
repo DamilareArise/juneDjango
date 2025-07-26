@@ -1,0 +1,35 @@
+{% extends "common.html" %}
+
+    {% block content %}
+    
+    <div class="col-md-4 container border my-3 p-3">
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <div class="alert alert-danger ">{{ message }}</div>
+                {% else %}
+                        <div class="alert alert-info ">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        <form action="{% url "edit-product" product.id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h4>Edit product</h4>
+            <input type="text" placeholder="Product name" value='{{product.name}}' name="product_name" class='form-control mb-2'>
+            <input type="number" placeholder="Quantity" value='{{product.quantity}}' name="quantity" class='form-control mb-2'>
+            <input type="number" placeholder="Price" value='{{product.price}}' name="price" class='form-control mb-2'> 
+
+            <label>Current Image:</label><br>
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="Current Image" class="img-thumbnail mb-2" style="max-height: 60px;">
+            {% else %}
+                <p>No image uploaded.</p>
+            {% endif %}
+
+            <label for="">Upload Product image (Optional)</label>
+            <input type="file" name="product_image" accept="image/*" class='form-control mb-2'>
+            <button type="submit" class='btn btn-primary'>submit</button>
+        </form>
+    </div>
+    {% endblock content %}
+

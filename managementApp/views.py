@@ -27,7 +27,31 @@ db = [
 def dashboard(request):
     user = get_object_or_404(User, id = request.user.id)
     name = user.first_name +" "+ user.last_name
-    return render(request, template_name='dashboard.html', context={"name": name})
+    products = Product.objects.all()
+    stocks = StockLog.objects.all()
+    total_products = products.count()
+    total_in_stock = stocks.filter(type='in').count()
+    total_out_stock = stocks.filter(type='out').count()
+    total_stock = stocks.count()
+    
+    total_price = sum([ product.price * product.quantity for product in products])
+    # total products 
+    # total in stock
+    # total out stock
+    # total stock
+    
+    
+    return render(
+        request, 
+        template_name='dashboard.html', 
+        context={
+            "name": name, 
+            'total_products': total_products,
+            'total_in_stock': total_in_stock,
+            'total_out_stock': total_out_stock,
+            'total_stock': total_stock,
+            'total_price': total_price
+            })
 
 
 def allProducts(request):
@@ -35,6 +59,7 @@ def allProducts(request):
     
     return render(request, template_name='products.html', context={'products': products})
 
+@login_required
 def viewProduct(request, id):
     # for product in db:
     #     if product['id'] == id:
@@ -65,9 +90,38 @@ def addProduct(request):
             created_by = request.user
         )
         
+        messages.success(request, 'Product added successfully')
+        
      
     return render(request, template_name="add_product.html")
      
+
+@login_required
+def deleteProduct(request, id):
+    product = get_object_or_404(Product, id = id)
+    product.delete()
+    
+    messages.success(request, 'Product deleted successfully')
+    return redirect('products')
+
+
+def editProduct(request, id):
+    product = get_object_or_404(Product, id = id)
+    
+    if request.method == 'POST':
+        product.name = request.POST.get('product_name')
+        product.quantity = request.POST.get('quantity')
+        product.price = request.POST.get('price')
+        
+        if request.FILES.get('product_image'):
+            product.image = request.FILES.get('product_image')
+            
+        product.save()
+        messages.success(request, 'Product edited successfully')
+        return redirect('view-product', product.id)
+    else:
+        return render(request, 'edit_product.html', {'product': product})
+    
 
 @login_required
 def stockLogView(request, product_id):
@@ -103,3 +157,9 @@ def stockLogView(request, product_id):
     else:
         form = StockLogForm()
         return render(request, template_name="stock_log.html", context={"form": form, "product": product})
+    
+@login_required
+def allLogs(request):
+    logs = StockLog.objects.all()
+    return render(request, 'all_logs.html', {'logs': logs})
+    
