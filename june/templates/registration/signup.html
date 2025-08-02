@@ -1,0 +1,29 @@
+{% extends "common.html" %}
+    {% block content %}
+    {% load django_bootstrap5 %}
+    
+    <div class="container border col-md-4 my-5 p-2">
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <div class="alert alert-danger ">{{ message }}</div>
+                {% else %}
+                        <div class="alert alert-info ">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        <form method="post">
+            <h4>Sign up</h4>
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button class="btn btn-dark">sign up</button>
+            <div>
+                <p>Already have an account? <a href="{% url "login" %}">login </a></p>
+            </div>
+        </form>
+    </div>
+    
+    
+    
+    {% endblock content %}

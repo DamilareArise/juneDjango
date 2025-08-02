@@ -1,0 +1,19 @@
+{% extends "common.html" %}
+{% load humanize %}
+{% block content %}  
+    <div class="container my-2"> 
+    <h1>Dashboard </h1>
+    <h3>welcome, {{ name }}</h3>
+    <div class='container row row-cols-3'> 
+        <p class=''><b>Total Product:</b> {{total_products}}</p>
+        <p class=''><b>Total in stock:</b> {{total_in_stock}}</p>
+        <p class=''><b>Total out stock:</b> {{total_out_stock}}</p>
+        <p class=''><b>Total stock:</b> {{total_stock}}</p>
+        <p class=''><b>Total product price</b> #{{total_price|intcomma}}</p>
+    </div>
+
+    <a href="{% url "add-product" %}" class="btn btn-primary">Add Product</a>
+    <a href="{% url "products" %}" class="btn btn-primary">View Products</a>
+    </div>
+{% endblock content %}
+

@@ -16,7 +16,7 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.views.generic import TemplateView
 from managementApp.views import dashboard, allProducts, viewProduct, addProduct, stockLogView, deleteProduct, editProduct, allLogs
 from django.conf.urls.static import static  
@@ -32,7 +32,9 @@ urlpatterns = [
     path('log-stock/<int:product_id>/', stockLogView, name='log-stock'),
     path('delete-product/<int:id>/', deleteProduct, name='delete-product'),
     path('edit-product/<int:id>/', editProduct, name='edit-product'),
-    path('all-logs/', allLogs, name='all-logs')
+    path('all-logs/', allLogs, name='all-logs'),
+    path('accounts/', include("django.contrib.auth.urls")),
+    path('userApp/', include('userApp.urls'))
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
